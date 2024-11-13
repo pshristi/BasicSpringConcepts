@@ -27,4 +27,4 @@ public class MyCustomInterceptor implements HandlerInterceptor {
 }
 
 //Interceptors are invoked by DispatcherServlet (doDispatch()) before/after api invocation,
-// to run custom logic even before request reached specific controolers
+// to run custom logic even before request reached specific controllers
