@@ -33,6 +33,8 @@ The `jdbcTemplate` subpackage demonstrates Spring's JdbcTemplate abstraction, wh
 
 ## Comparison: JDBC vs JdbcTemplate
 
+![JDBC vs JdbcTemplate Comparison](img.png)
+
 ### Plain JDBC Approach
 ```java
 // Establish connection
@@ -41,7 +43,7 @@ Connection dbConnection = connection.getConnection();
 // Execute query
 try (Statement statement = dbConnection.createStatement();
      ResultSet resultSet = statement.executeQuery(sql)) {
-    
+
     // Process results
     while (resultSet.next()) {
         int id = resultSet.getInt("id");

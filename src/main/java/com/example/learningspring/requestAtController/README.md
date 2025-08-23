@@ -6,6 +6,8 @@ This document explains the flow illustrated in the `HowRequestReachToController.
 
 The image illustrates the complete lifecycle of an HTTP request in a Spring MVC application, from the moment it arrives at the server until it's processed by a controller method. This is a fundamental concept in understanding how Spring handles web requests.
 
+![How Request Reach To Controller](HowRequestReachToController.png)
+
 ### Key Components in the Request Flow
 
 1. **Client**: The source of the HTTP request (browser, mobile app, etc.)

@@ -20,6 +20,7 @@ public class UserDaoTransactionPropagationTest {
     @Autowired
     PlatformTransactionManager userTransactionManager;
 
+    //Declarative transaction management
     @Transactional
     public void method2() {
         System.out.println("Current transaction active : " + TransactionSynchronizationManager.isActualTransactionActive());

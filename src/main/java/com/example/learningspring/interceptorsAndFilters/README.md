@@ -2,6 +2,18 @@
 
 This package demonstrates the implementation and usage of interceptors and filters in Spring Framework, which are powerful mechanisms for processing requests and responses at different points in the request handling lifecycle.
 
+## Architectural Overview
+
+The `FiltersAndInterceptors.png` image provides a comprehensive architectural diagram of how filters, interceptors, and aspect-based interceptors fit into the Spring request processing pipeline. This layered architecture allows for different types of cross-cutting concerns to be addressed at the appropriate level:
+
+1. **Servlet Filters**: For container-level concerns like authentication, CORS, character encoding
+2. **Handler Interceptors**: For Spring MVC concerns like localization, theme selection, request validation
+3. **Aspect-Based Interceptors**: For method-level concerns like security, caching, logging
+
+Each layer has different capabilities, limitations, and use cases, as detailed in the sections below.
+
+![Filters and Interceptors in Spring](FiltersAndInterceptors.png)
+
 ## Key Concepts Demonstrated
 
 ### Servlet Filters
@@ -25,23 +37,113 @@ The `customAnnotation` subpackage demonstrates:
 - Accessing annotation attributes at runtime
 - Using custom annotations to control method behavior
 
+#### How Aspect-Based Interception Works
+
+1. **Regular Interceptors** are applied at the URL/controller level and intercept HTTP requests
+2. **Aspect-Based Interceptors** are applied at the method level and intercept method calls
+
+Aspect-based interception using custom annotations works through Spring AOP (Aspect-Oriented Programming):
+
+1. **Define a Custom Annotation**:
+   - Create an annotation with `@Target` to specify where it can be used (methods, classes, etc.)
+   - Set `@Retention` to `RetentionPolicy.RUNTIME` so it's available at runtime
+   - Define attributes with default values as needed
+
+2. **Create an Aspect**:
+   - Use `@Aspect` to define a class as an aspect
+   - Use `@Component` to make it a Spring-managed bean
+   - Define pointcuts using `@Around`, `@Before`, `@After`, etc. with annotation-based selectors
+
+3. **Apply the Annotation**:
+   - Annotate methods with your custom annotation
+   - Set attribute values as needed
+
+4. **Execution Flow**:
+   - When an annotated method is called, the aspect intercepts the call
+   - The aspect can access the annotation's attributes
+   - The aspect can execute code before and after the method call
+   - The aspect can modify the method's arguments and return value
+   - The aspect can handle exceptions thrown by the method
+
+#### Benefits of Annotation-Based Interception
+
+1. **Fine-Grained Control**: Apply interception at the method level rather than the controller level
+2. **Declarative Approach**: Use annotations to declare behavior rather than writing code
+3. **Reusability**: Create reusable aspects that can be applied to any method
+4. **Separation of Concerns**: Keep cross-cutting concerns separate from business logic
+5. **Metadata-Driven Behavior**: Use annotation attributes to control behavior
+
 ## Filters vs Interceptors: Key Differences
 
-### Filters
-- Part of the Servlet API (not Spring-specific)
-- Execute before the DispatcherServlet processes the request
-- Can modify both the request and response objects
-- Can prevent the request from reaching the DispatcherServlet
-- Applied to all requests matching URL patterns, regardless of which controller handles them
-- Ideal for cross-cutting concerns like authentication, logging, CORS, etc.
+### Architectural Placement
 
-### Interceptors
+#### Filters
+- Part of the Servlet API (not Spring-specific)
+- Execute at the Servlet Container level, outside the Spring context
+- Execute before the DispatcherServlet processes the request
+- Form a chain around the entire Spring MVC framework
+- Operate on raw ServletRequest and ServletResponse objects
+
+#### Interceptors
 - Part of the Spring MVC framework
-- Execute after the DispatcherServlet receives the request but before the controller is called
+- Execute within the Spring context, after the DispatcherServlet receives the request
+- Form a chain around the handler (controller) execution
+- Operate on HttpServletRequest/Response and have access to the handler and ModelAndView
+
+### Capabilities and Limitations
+
+#### Filters
+- Can modify both the request and response objects (headers, parameters, body, etc.)
+- Can transform the request and response (e.g., compression, encryption)
+- Can prevent the request from reaching the DispatcherServlet by not calling `chain.doFilter()`
+- Applied to all requests matching URL patterns, regardless of which controller handles them
+- No access to Spring's handler execution chain or model-view objects
+- Cannot differentiate between requests to controllers and static resources
+
+#### Interceptors
 - Cannot modify the request and response objects but can add attributes
-- Can prevent the handler (controller) from being executed
+- Can access and modify the ModelAndView object returned by controllers
+- Can prevent the handler (controller) from being executed by returning `false` from `preHandle()`
 - More integrated with Spring's request processing lifecycle
 - Access to Spring's handler execution chain and model-view objects
+- Can be applied selectively to specific controllers or request paths
+- Can access handler metadata (which controller and method will handle the request)
+
+### Registration and Configuration
+
+#### Filters
+- Registered using `FilterRegistrationBean` in a `@Configuration` class
+- Can be ordered using the `setOrder()` method
+- URL patterns are specified using Ant-style patterns
+- Can be registered in web.xml (traditional) or programmatically (modern)
+
+#### Interceptors
+- Registered by implementing `WebMvcConfigurer` and overriding `addInterceptors()`
+- Order is determined by the order of registration
+- Path patterns are specified using Ant-style patterns
+- Can include/exclude specific paths
+
+### Use Case Suitability
+
+#### Filters
+- Authentication and authorization
+- CORS (Cross-Origin Resource Sharing) handling
+- Request/response logging
+- Character encoding setting
+- Compression/decompression
+- Request/response transformation
+- Caching
+- Security concerns that need to be applied to all requests
+
+#### Interceptors
+- Localization
+- Theme selection
+- Performance monitoring
+- Request validation
+- User tracking
+- Audit logging
+- Transaction management
+- Controller-specific concerns
 
 ## Code Examples
 
@@ -138,38 +240,65 @@ public class MyCustomAnnotationInterceptor {
 
 ## Request Processing Flow
 
+### Detailed Request Processing Lifecycle
+
+The detailed request processing flow in Spring, showing how filters and interceptors interact with the DispatcherServlet and controllers, is as follows:
+
 1. **HTTP Request** arrives at the server
 2. **Servlet Filters** process the request (in order of their registration)
-3. **DispatcherServlet** receives the request
+   - Each filter's `doFilter()` method is called
+   - Filters can modify the request and response objects
+   - Filters can prevent the request from reaching the DispatcherServlet by not calling `chain.doFilter()`
+   - In our example, MyFilter2 (order=1) executes before MyFilter1 (order=2)
+
+3. **DispatcherServlet** receives the request and passes it to the appropriate handler
+
 4. **Interceptors' preHandle()** methods are called (in order of their registration)
+   - If any interceptor returns `false`, the request processing stops
+
 5. **Controller** handles the request and produces a model and view
+   - For methods with custom annotations, aspect-based interceptors are applied
+
 6. **Interceptors' postHandle()** methods are called (in reverse order)
+   - This happens after the controller executes but before view rendering
+
 7. **View Rendering** occurs
+
 8. **Interceptors' afterCompletion()** methods are called (in reverse order)
+   - This happens after view rendering, even if exceptions occurred
+
 9. **Servlet Filters** complete processing (in reverse order)
+   - The code after `chain.doFilter()` in each filter executes
+
 10. **HTTP Response** is sent back to the client
 
-## Common Use Cases
+### Execution Order Visualization
 
-### For Filters
-- Authentication and authorization
-- CORS (Cross-Origin Resource Sharing) handling
-- Request/response logging
-- Character encoding setting
-- Compression/decompression
-- Request/response transformation
-- Caching
+```
+Request Flow:
+Client → [Filter2 → Filter1] → DispatcherServlet → [Interceptor1.preHandle → Interceptor2.preHandle] → Controller → [Interceptor2.postHandle → Interceptor1.postHandle] → View Rendering → [Interceptor2.afterCompletion → Interceptor1.afterCompletion] → [Filter1 completion → Filter2 completion] → Client
 
-### For Interceptors
-- Localization
-- Theme selection
-- Performance monitoring
-- Request validation
-- User tracking
-- Audit logging
-- Transaction management
+Where:
+- Filter2 has order=1 (executes first)
+- Filter1 has order=2 (executes second)
+- Interceptor1 is registered first
+- Interceptor2 is registered second
+```
 
-### For Custom Annotations
+### Key Points About the Flow
+
+1. **Filters Execute Outside Spring Context**: Filters operate at the Servlet container level, before the request enters the Spring context.
+
+2. **Interceptors Execute Within Spring Context**: Interceptors operate within the Spring context, after the DispatcherServlet receives the request.
+
+3. **Symmetric Execution Pattern**: The execution pattern is symmetric - components that execute first on the way in (request processing) execute last on the way out (response processing).
+
+4. **Exception Handling**: If an exception occurs during request processing:
+   - Remaining interceptors' preHandle() and postHandle() methods are skipped
+   - All interceptors that successfully executed preHandle() will have their afterCompletion() methods called
+   - Filter completion code still executes
+
+### Use Cases for Custom Annotations
 - Method-level security
 - Caching control
 - Rate limiting

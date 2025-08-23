@@ -11,7 +11,7 @@ public class AsyncTestRestController {
     AsyncTestService asyncTestService;
 
     @GetMapping("/getUser")
-    public String getUser(){
+    public String getUser() {
         System.out.println("Inside getUser() method : " + Thread.currentThread().getName());
         //Every call to this method will create a new thread
         asyncTestService.getAsyncData();

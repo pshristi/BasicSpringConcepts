@@ -9,8 +9,8 @@ import org.springframework.scheduling.annotation.AsyncConfigurer;
 @Configuration
 public class AppConfig2 implements AsyncConfigurer {
 
-   @Autowired
-   CustomAsyncExceptionHandler customAsyncExceptionHandler;
+    @Autowired
+    CustomAsyncExceptionHandler customAsyncExceptionHandler;
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {

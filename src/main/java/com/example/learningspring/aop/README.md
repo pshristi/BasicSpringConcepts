@@ -2,14 +2,21 @@
 
 This package demonstrates Aspect-Oriented Programming (AOP) in Spring Framework, which is a programming paradigm that allows separation of cross-cutting concerns from the main business logic.
 
+**In simple terms:** AOP is a way to add extra functionality to your code without changing the original code itself. It's like adding special behaviors that "wrap around" your normal code.
+
 ## Key Concepts Demonstrated
 
 ### AOP Components
 - **Aspect**: A modular unit of cross-cutting concern implementation (ExecutionAop.java)
+  - **In simple terms:** An aspect is simply a class that contains the extra functionality you want to add. In your project, `ExecutionAop.java` is an aspect.
 - **Pointcut**: Expression that selects join points where advice should be applied
+  - **In simple terms:** A pointcut is just a pattern that tells Spring where to apply your advice. It's like saying "apply this extra code to these specific methods."
 - **Advice**: Action taken at a particular join point (@Before, @Around)
+  - **In simple terms:** Advice is the actual code that runs either before, after, or around your normal code.
 - **Join Point**: A point during the execution of a program (method execution)
+  - **In simple terms:** A join point is the exact moment in your code where the aspect's code gets applied - typically when a method is called.
 - **Proxy**: Object created by the AOP framework to implement the aspect contracts
+  - **In simple terms:** Spring creates a "proxy" (a wrapper) around your controller. When someone calls a method on your controller, they're actually calling the proxy, which then applies all the aspects before calling your actual method.
 
 ### Spring AOP Implementation
 - **Spring AOP Proxies**: The example demonstrates how Spring creates proxies for AOP
@@ -23,6 +30,8 @@ As commented in ExecutionAop.java:
 3. **Proxy Types**: Either JDK dynamic proxies (for interfaces) or CGLIB proxies (for classes)
 4. **Invocation Handling**: ReflectiveMethodInvocation handles method calls through the proxy
 
+**In simple terms:** Spring automatically creates a wrapper (proxy) around your classes. When someone calls a method on your class, they're actually calling this wrapper, which then applies all the aspects before calling your actual method. This is all done automatically by Spring - you just need to define your aspects and pointcuts, and Spring handles the rest!
+
 ## Types of Advice Demonstrated
 
 ### Before Advice
@@ -33,6 +42,8 @@ public void before() {
     System.out.println("before execution aop");
 }
 ```
+
+**In simple terms:** Before advice runs before your method. In this example, it simply prints "before execution aop" before any method in TestAopController runs.
 
 ### Around Advice
 Surrounds the target method execution, with complete control over method execution:
@@ -45,7 +56,11 @@ public void around(ProceedingJoinPoint joinPoint) throws Throwable {
 }
 ```
 
+**In simple terms:** Around advice runs before and after your method, giving you control over whether the method runs at all. In this example, it prints "around execution aop 1", then runs your original method, then prints "around execution aop 2".
+
 ## Pointcut Expressions
+
+Pointcuts are patterns that tell Spring where to apply your advice. They help you target specific methods or classes.
 
 ### Method Execution Pointcut
 Targets specific methods:
@@ -56,11 +71,16 @@ public void customPointcut() {
 }
 ```
 
+This pointcut targets all methods in the TestAopController class, regardless of their return type or parameters.
+
 ### Annotation-based Pointcut
 Targets classes with specific annotations:
-```java
+
+```
 @Around("@within(org.springframework.web.bind.annotation.RestController)")
 ```
+
+This pointcut targets any class that has the @RestController annotation.
 
 ## Example Controller
 The TestAopController.java demonstrates a simple REST controller that is targeted by the AOP aspects:

@@ -13,18 +13,46 @@ This package demonstrates the implementation and configuration of thread pools i
 ### ThreadPoolExecutor Configuration
 The `testThreadPoolExecutor.java` file demonstrates how to create and configure a ThreadPoolExecutor with specific parameters:
 
-- **Core Pool Size**: The minimum number of threads to keep in the pool
-- **Maximum Pool Size**: The maximum number of threads allowed in the pool
-- **Keep-Alive Time**: How long idle threads should be kept alive
-- **Work Queue**: The queue used to hold tasks before they are executed
-- **Thread Factory**: Factory for creating new threads
-- **Rejection Policy**: How to handle tasks when the queue is full
+- **Core Pool Size**: The minimum number of threads to keep in the pool (2 in our example)
+- **Maximum Pool Size**: The maximum number of threads allowed in the pool (3 in our example)
+- **Keep-Alive Time**: How long idle threads should be kept alive (1 minute in our example)
+- **Work Queue**: The queue used to hold tasks before they are executed (LinkedBlockingQueue with capacity 2 in our example)
+- **Thread Factory**: Factory for creating new threads (defaultThreadFactory in our example)
+- **Rejection Policy**: How to handle tasks when the queue is full (CallerRunsPolicy in our example)
+
+When you run the example in `testThreadPoolExecutor.java`, here's what happens:
+1. A thread pool is created with 2 core threads, 3 max threads, and a queue capacity of 2
+2. 10 tasks are submitted to the pool
+3. The first 2 tasks are assigned to the core threads
+4. The next 2 tasks are placed in the queue
+5. The next task causes the pool to create a new thread (up to max size)
+6. When all threads are busy and the queue is full, the CallerRunsPolicy makes the submitting thread run the task
 
 ### Custom Components
 The package also demonstrates how to create custom components for thread pools:
 
 - **Custom Thread Factory**: Creating threads with specific names, daemon status, and priorities
 - **Custom Rejection Handler**: Handling rejected tasks when the queue is full
+
+While these custom components are defined in the `testThreadPoolExecutor.java` file, they are not used in the main method. To use them, you would replace the default components in the ThreadPoolExecutor constructor like this:
+
+```java
+// Create a custom thread factory
+CustomThreadFactory threadFactory = new CustomThreadFactory();
+
+// Create a custom rejection handler
+CustomRejectedExecutionHandler rejectionHandler = new CustomRejectedExecutionHandler();
+
+// Use them in the ThreadPoolExecutor constructor
+ThreadPoolExecutor executor = new ThreadPoolExecutor(
+    2,                          // Core pool size
+    3,                          // Maximum pool size
+    1, TimeUnit.MINUTES,        // Keep-alive time
+    new LinkedBlockingQueue<>(2), // Work queue
+    threadFactory,              // Custom thread factory
+    rejectionHandler            // Custom rejection handler
+);
+```
 
 ## Code Examples
 
