@@ -23,19 +23,19 @@ Each concept is organized into its own package under `src/main/java`, with:
 
 ## ✅ Concepts Covered (so far)
 
-- [Aspect-Oriented Programming (AOP)](src/main/java/com/example/cncspring/aop/README.md)
-- [Asynchronous Processing](src/main/java/com/example/cncspring/async/README.md)
-- [Bean Scopes](src/main/java/com/example/cncspring/beanscope/README.md)
-- [Conditional Bean Creation](src/main/java/com/example/cncspring/conditional_on_property/README.md)
-- [Dynamic Bean Initialization](src/main/java/com/example/cncspring/dynamic_bean_initialization/README.md)
-- [Exception Handling](src/main/java/com/example/cncspring/exceptionHandling/README.md)
-- [Interceptors & Filters](src/main/java/com/example/cncspring/interceptorsAndFilters/README.md)
-- [Inversion of Control (IoC) & Dependency Injection](src/main/java/com/example/cncspring/ioc/README.md)
-- [Layered Architecture](src/main/java/com/example/cncspring/layeredArchitecture/README.md)
-- [ResponseEntity](src/main/java/com/example/cncspring/responseEntity/README.md)
-- [Spring Data (JDBC, JdbcTemplate)](src/main/java/com/example/cncspring/springJpa/README.md)
-- [Thread Pool Configurations](src/main/java/com/example/cncspring/threadPool/README.md)
-- [Transaction Management](src/main/java/com/example/cncspring/transactions/README.md)
+- [Aspect-Oriented Programming (AOP)](src/main/java/com/example/learningspring/aop/README.md)
+- [Asynchronous Processing](src/main/java/com/example/learningspring/async/README.md)
+- [Bean Scopes](src/main/java/com/example/learningspring/beanscope/README.md)
+- [Conditional Bean Creation](src/main/java/com/example/learningspring/conditionalOnProperty/README.md)
+- [Dynamic Bean Initialization](src/main/java/com/example/learningspring/dynamicBeanInitialization/README.md)
+- [Exception Handling](src/main/java/com/example/learningspring/exceptionHandling/README.md)
+- [Interceptors & Filters](src/main/java/com/example/learningspring/interceptorsAndFilters/README.md)
+- [Inversion of Control (IoC) & Dependency Injection](src/main/java/com/example/learningspring/ioc/README.md)
+- [Layered Architecture](src/main/java/com/example/learningspring/layeredArchitecture/README.md)
+- [ResponseEntity](src/main/java/com/example/learningspring/responseEntity/README.md)
+- [Spring Data (JDBC, JdbcTemplate)](src/main/java/com/example/learningspring/springJpa/README.md)
+- [Thread Pool Configurations](src/main/java/com/example/learningspring/threadPool/README.md)
+- [Transaction Management](src/main/java/com/example/learningspring/transactions/README.md)
 
 > 🧭 I will continue adding more Spring and Java examples as I learn and implement them.
 
