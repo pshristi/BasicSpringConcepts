@@ -79,6 +79,6 @@ This repository is purely for **educational purposes** — meant to reinforce my
 ---
 
 ## 👤 Maintainer
-
 **Shristi Pathak**
-- LinkedIn: [@shristi-pathak](https://www.linkedin.com/in/shristi-pathak/)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://linkedin.com/in/shristi-pathak)
