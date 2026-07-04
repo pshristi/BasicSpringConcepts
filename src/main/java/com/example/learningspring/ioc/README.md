@@ -67,6 +67,7 @@ public class WrongUser {
 ### Bean Lifecycle
 - **@PostConstruct and @PreDestroy**: Lifecycle hooks demonstrated in CorrectUser.java
 - Bean initialization and destruction callbacks
+- These annotations are JSR-250 lifecycle callbacks. Spring also supports two older mechanisms with the *same* semantics — the `InitializingBean`/`DisposableBean` interfaces and XML `init-method`/`destroy-method` attributes — plus a verified execution order when several are combined on the same bean. See [Spring Core Container](../springCore/README.md) Bean Lifecycle Callbacks for the interface/XML forms and the confirmed ordering.
 
 #### Bean Lifecycle Hooks Example
 ```java

@@ -75,6 +75,13 @@ Key points:
 - Requires `proxyMode` to be specified when injected into singleton beans
 - Only available in web applications
 
+## XML Configuration
+Before annotation-based `@Scope` existed, scope was declared via the `scope` attribute directly on the `<bean>` tag:
+```xml
+<bean id="triangle" class="org.koushik.javabrains.Triangle" scope="prototype" />
+```
+Same scope names apply as in the annotation form above. See [Spring Core Container](../springCore/README.md) for the full classic-XML configuration picture.
+
 ## Important Scope Interactions
 
 ### Singleton with Prototype Dependencies
@@ -119,6 +126,7 @@ In addition to the scopes demonstrated in this package, Spring also supports:
 - **Session Scope**: One instance per user session
 - **Application Scope**: One instance per ServletContext (similar to singleton but for web applications)
 - **WebSocket Scope**: One instance per WebSocket session
+- **Global Session Scope** (XML-era, portlet-specific): one bean per *global* HTTP session, shared across all portlets in a portlet-based web application. Rarely relevant outside portlet containers, but occasionally asked about alongside the other web-aware scopes.
 - **Custom Scopes**: Developers can define their own custom scopes
 
 ## Best Practices

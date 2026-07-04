@@ -4,6 +4,22 @@ This package demonstrates Aspect-Oriented Programming (AOP) in Spring Framework,
 
 **In simple terms:** AOP is a way to add extra functionality to your code without changing the original code itself. It's like adding special behaviors that "wrap around" your normal code.
 
+## The Problem AOP Solves
+Say you have three unrelated classes (`Object A`, `Object B`, `Object C`), each with its own business methods, plus one identical `logMessage()` method duplicated in every one of them. Three problems fall out of this:
+- Too many relationships to the cross-cutting concern (logging is scattered across every class).
+- The logging code is still required in every single method.
+- It can't all be changed at once — a change to logging behavior means editing every class.
+
+The fix is to pull the shared behavior (logging, transactions, security — the classic "cross-cutting concerns") out into its own object and have Spring **wrap it around** the target methods automatically, instead of duplicating it inline:
+```
+Aspect Code
+     ↓
+Target Methods
+     ↓
+Aspect Code
+```
+That's exactly what an `Aspect` + `Pointcut` + `Advice` combination does, described below.
+
 ## Key Concepts Demonstrated
 
 ### AOP Components

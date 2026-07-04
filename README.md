@@ -33,6 +33,7 @@ Each concept is organized into its own package under `src/main/java`, with:
 - [Inversion of Control (IoC) & Dependency Injection](src/main/java/com/example/learningspring/ioc/README.md)
 - [Layered Architecture](src/main/java/com/example/learningspring/layeredArchitecture/README.md)
 - [ResponseEntity](src/main/java/com/example/learningspring/responseEntity/README.md)
+- [Spring Core Container (Classic XML Configuration)](src/main/java/com/example/learningspring/springCore/README.md)
 - [Spring Data (JDBC, JdbcTemplate)](src/main/java/com/example/learningspring/springJpa/README.md)
 - [Thread Pool Configurations](src/main/java/com/example/learningspring/threadPool/README.md)
 - [Transaction Management](src/main/java/com/example/learningspring/transactions/README.md)
