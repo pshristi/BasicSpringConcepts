@@ -11,12 +11,38 @@ This package demonstrates how to use ResponseEntity in Spring Framework to build
 - **Status Code Management**: Using predefined HttpStatus enums
 
 ### HTTP Status Codes
+HTTP response status codes indicate whether a specific HTTP request has been successfully completed. Responses are grouped into five classes: informational (100–199), successful (200–299), redirection (300–399), client error (400–499), and server error (500–599).
 The package includes visual references for different HTTP status code categories:
 - **1xx (Informational)**: Request received, continuing process
 - **2xx (Success)**: Request successfully received, understood, and accepted
 - **3xx (Redirection)**: Further action needed to complete the request
 - **4xx (Client Error)**: Request contains bad syntax or cannot be fulfilled
 - **5xx (Server Error)**: Server failed to fulfill a valid request
+
+#### Informational Responses (1xx)
+- **100 Continue**: This interim response indicates that the client should continue the request or ignore the response if the request is already finished.
+- **102 Processing**: This code indicates that the server has received and is processing the request, but no response is available yet.
+
+#### Successful Responses (2xx)
+- **200 OK**: The request succeeded. The exact meaning of "success" depends on the HTTP method.
+  - **GET**: The resource has been fetched and transmitted in the message body.
+  - **HEAD**: The representation headers are included in the response without any message body.
+  - **PUT or POST**: The resource describing the result of the action is transmitted in the message body.
+  - **TRACE**: The message body contains the request message as received by the server.
+- **201 Created**: The request succeeded, and a new resource was created as a result. This is typically the response sent after POST requests, or some PUT requests.
+- **202 Accepted**: The request has been received but not yet acted upon. It is noncommittal, since there is no way in HTTP to later send an asynchronous response indicating the outcome of the request. It is intended for cases where another process or server handles the request, or for batch processing.
+
+#### Client Error Responses (4xx)
+- **400 Bad Request**: The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).
+- **401 Unauthorized**: Although the HTTP standard specifies "unauthorized", semantically this response means "unauthenticated". That is, the client must authenticate itself to get the requested response.
+- **403 Forbidden**: The client does not have access rights to the content; that is, it is unauthorized, so the server is refusing to give the requested resource. Unlike 401 Unauthorized, the client's identity is known to the server.
+- **404 Not Found**: The server cannot find the requested resource. In the browser, this means the URL is not recognized. In an API, this can also mean that the endpoint is valid but the resource itself does not exist. Servers may also send this response instead of 403 Forbidden to hide the existence of a resource from an unauthorized client. This response code is probably the most well known due to its frequent occurrence on the web.
+
+#### Server Error Responses (5xx)
+- **500 Internal Server Error**: The server has encountered a situation it does not know how to handle.
+- **502 Bad Gateway**: This error response means that the server, while working as a gateway to get a response needed to handle the request, got an invalid response.
+- **503 Service Unavailable**: The server is not ready to handle the request. Common causes are a server that is down for maintenance or that is overloaded. A user-friendly page explaining the problem should be sent along with this response. This response should be used for temporary conditions, and the Retry-After HTTP header should, if possible, contain the estimated time before the recovery of the service. Caching-related headers sent along with this response should usually not allow it to be cached.
+- **504 Gateway Timeout**: This error response is given when the server is acting as a gateway and cannot get a response in time.
 
 ## ResponseEntity Implementation
 
