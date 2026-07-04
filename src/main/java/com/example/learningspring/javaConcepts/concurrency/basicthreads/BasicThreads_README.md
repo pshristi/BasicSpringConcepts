@@ -1,7 +1,9 @@
 # Basic Threads in Java
 
 ## Overview
-Java has built-in support for multithreaded programming through the Thread class and the Runnable interface. Threads allow multiple parts of a program to run concurrently, enabling better resource utilization and improved responsiveness in applications.
+- Multitasking can be achieved in two ways :  Process-based Multitasking (Multiprocessing) and Thread-based Multitasking (Multithreading)
+- Threads are lightweight subprocess and share the same address space
+- Java has built-in support for multithreaded programming through the Thread class and the Runnable interface. Threads allow multiple parts of a program to run concurrently, enabling better resource utilization and improved responsiveness in applications.
 
 ## Key Features and Benefits
 - **Concurrency**: Execute multiple tasks simultaneously
@@ -19,6 +21,8 @@ A thread in Java goes through various states during its lifecycle:
 4. **Waiting**: Thread is waiting indefinitely for another thread to perform a specific action
 5. **Timed Waiting**: Thread is waiting for another thread for a specified period
 6. **Terminated**: Thread has completed execution or was terminated
+
+![Thread Lifecycle](ThreadLifecycle.png)
 
 ## Example from Code
 ```java
@@ -148,6 +152,16 @@ try {
 - InterruptedException is thrown when a thread is interrupted while in a blocking operation
 - Best practice is to re-interrupt the thread by calling Thread.currentThread().interrupt()
 - This preserves the interrupted status for higher-level code
+
+## Additional Threading Concepts
+
+- **Invoking `run()` directly vs. `start()`**: Calling `run()` from the main thread executes it on the current call stack (like a normal method call) rather than starting a new call stack — this causes no context switching and no real concurrency. Use `start()` to actually run on a new thread.
+- **Thread Pool**: A group of worker threads that wait for jobs and get reused many times, avoiding the cost of creating a new thread per task. See [Executor Service](../executorservice/ExecutorService_README.md) for Java's built-in thread pool implementations.
+- **Thread Group**: Java lets you group multiple threads into a single `ThreadGroup` object, so a whole group can be suspended, resumed, or interrupted with one method call.
+- **Shutdown Hook**: A hook that runs special cleanup logic when the JVM is shutting down.
+- **Thread Scheduler**: Decides which runnable thread gets the CPU next. Common scheduling approaches include First-Come-First-Serve, Time-Slicing, and Preemptive Priority scheduling (higher-priority threads preferred).
+
+![Thread Scheduler](ThreadScheduler.png)
 
 ## Usage Scenarios
 - **Background tasks**: Performing operations without blocking the main thread

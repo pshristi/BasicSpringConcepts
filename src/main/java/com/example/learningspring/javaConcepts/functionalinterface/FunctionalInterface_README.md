@@ -1,7 +1,7 @@
 # Functional Interfaces in Java
 
 ## Overview
-Functional interfaces were formalized in Java 8 as part of the lambda expressions feature. A functional interface is an interface that contains exactly one abstract method. These interfaces serve as the foundation for lambda expressions and method references in Java.
+Aka Single Abstract Method (SAM) Interfaces, Functional interfaces were formalized in Java 8 as part of the lambda expressions feature. A functional interface is an interface that contains exactly one abstract method. These interfaces serve as the foundation for lambda expressions and method references in Java.
 
 ## Key Features and Benefits
 - **Single Abstract Method**: Contains exactly one abstract method that needs to be implemented
@@ -26,6 +26,35 @@ Java provides several built-in functional interfaces in the `java.util.function`
 9. **BinaryOperator<T>**: Special case of BiFunction where all inputs and output are of the same type
 
 ## Example from Code
+
+```java
+// Java program to demonstrate functional interface  
+class Test {
+  public static void main(String args[]) {
+    // create anonymous inner class object
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        System.out.println("New thread created");
+      }
+    }).start();
+  }
+}
+
+// Java program to demonstrate Implementation of
+// functional interface using lambda expressions
+
+class Test {
+  public static void main(String args[]) {
+
+    // lambda expression to create the object
+    new Thread(() -> {
+      System.out.println("New thread created");
+    }).start();
+  }
+}
+```
+
 ```java
 String str = "Hello";
 
@@ -140,5 +169,9 @@ Predicate<String> combined = hasLength.and(containsWorld);
 - The `@FunctionalInterface` annotation is optional but recommended
 - Functional interfaces can have any number of default or static methods
 - They can also override methods from Object class without affecting their "functional" status
-- Many existing interfaces from earlier Java versions were retrofitted as functional interfaces (e.g., Runnable, Callable)
+- Many existing interfaces from earlier Java versions were retrofitted as functional interfaces, e.g.:
+  - `Runnable` → `run()`
+  - `Comparable` → `compareTo()`
+  - `Callable` → `call()`
+  - `ActionListener` → `actionPerformed()`
 - Custom functional interfaces can be created for specific needs

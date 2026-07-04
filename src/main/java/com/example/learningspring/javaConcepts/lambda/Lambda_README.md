@@ -1,7 +1,11 @@
 # Lambda Expressions in Java
 
 ## Overview
-Lambda expressions were introduced in Java 8 as part of the Project Lambda. They provide a clear and concise way to represent one method interface using an expression. Lambda expressions are essentially anonymous methods (functions) that allow you to pass functionality as an argument to another method.
+- Instances of functional interfaces.
+- Function that can be created without belonging to any class
+- Lambda expressions were introduced in Java 8 as part of the Project Lambda. 
+- They provide a clear and concise way to represent one method interface using an expression.
+- Lambda expressions are essentially anonymous methods (functions) that allow you to pass functionality as an argument to another method i.e, Can be passed around as if it was an object and executed on demand
 
 ## Key Features and Benefits
 - **Concise syntax**: Reduces boilerplate code compared to anonymous inner classes
@@ -79,6 +83,24 @@ element -> System.out.println(element)
 ```
 - Curly braces required for multiple statements
 - Explicit return statement required if returning a value
+
+## Implementing a Custom Functional Interface
+A lambda can implement any user-defined functional interface, even one with a default method — the lambda only needs to provide the abstract method:
+```java
+interface FuncInterface {
+    // Abstract method
+    void abstractFun(int x);
+
+    // Default method — unaffected by the lambda
+    default void normalFun() {
+        System.out.println("Hello");
+    }
+}
+
+// Lambda implements only the abstract method
+FuncInterface fobj = (int x) -> System.out.println(2 * x);
+fobj.abstractFun(5); // prints 10
+```
 
 ## Comparison with Anonymous Inner Classes
 ### Before Lambda (Java 7 and earlier):

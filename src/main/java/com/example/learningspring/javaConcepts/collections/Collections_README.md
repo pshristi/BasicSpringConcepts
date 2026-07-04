@@ -24,6 +24,34 @@ The Java Collections Framework provides a unified architecture for representing 
 - **Map**: An object that maps keys to values
   - HashMap, LinkedHashMap, TreeMap, Hashtable
 
+![Collection Hierarchy](CollectionHierarchy.png)
+
+![Map Hierarchy](MapHierarchy.png)
+
+## Iterating Collections
+
+### Iterating a Collection (List/Set/Queue)
+1. **Enhanced for loop**: `for (datatype variable : collection_used) { ... }`
+2. **Iterator**:
+   ```java
+   Iterator<T> variable = collection.iterator();
+   while (variable.hasNext()) {
+       variable.next();
+   }
+   ```
+3. **forEach method**: `collection_used.forEach((datatype iterating_variable) -> { System.out.println(iterating_variable); });`
+
+### Iterating a Map
+- A `Map` is **not** a `Collection`, so it can't be iterated directly with an iterator.
+- Iterate over `map.entrySet()` to get both key and value:
+  ```java
+  for (Map.Entry<T, R> entry : mapname.entrySet()) {
+      entry.getKey();
+      entry.getValue();
+  }
+  ```
+- Or iterate only keys/values via `map.keySet()` or `map.values()`.
+
 ## Example from Code
 ```java
 // Creating arrays and different types of lists
