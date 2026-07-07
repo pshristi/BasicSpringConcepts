@@ -16,6 +16,7 @@ Java provides two interfaces for ordering objects of a user-defined class: `Comp
 - Syntax: `public int compare(Object obj1, Object obj2)` — returns -1, 0, or 1 to say if `obj1` is less than, equal to, or greater than `obj2`.
 
 ## When to Use Which
+- Comparable is used to define the natural ordering of objects by implementing the compareTo() method in the class itself. For example, an Employee class can implement Comparable to sort employees by ID. Since a class can have only one natural ordering, Comparable is suitable when there is a single default sort order. Comparator, on the other hand, is used to define custom sorting logic outside the class using the compare() method. It allows multiple sorting strategies, such as sorting employees by salary, name, or joining date, without modifying the Employee class.
 - **Comparable**: When there's one natural/default ordering for the class (e.g., sorting `Integer`s numerically).
 - **Comparator**: When you need multiple different orderings, or you can't modify the class whose objects you're sorting.
 
